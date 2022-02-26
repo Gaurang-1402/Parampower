@@ -8,6 +8,14 @@ module.exports = {
         lg: "976px",
         xl: "1440px",
       },
+      width: {
+        128: "30rem",
+        150: "40rem",
+      },
+      height: {
+        128: "30rem",
+        150: "40rem",
+      },
       colors: {
         primary: "#DECAF1",
         secondary: "#9259C4",
@@ -30,6 +38,7 @@ module.exports = {
           128: "32rem",
           144: "36rem",
         },
+
         borderRadius: {
           "4xl": "2rem",
         },

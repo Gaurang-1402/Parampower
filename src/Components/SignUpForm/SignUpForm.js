@@ -4,7 +4,7 @@ const SignUpForm = () => {
   return (
     <div>
       <div className='flex bg-gray-800 m-auto flex-col max-w-md px-4 py-8 rounded-lg shadow sm:px-6 md:px-8 lg:px-10'>
-        <div className='self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl text-white'>
+        <div className='self-center mb-2 text-xl font-light sm:text-2xl text-white'>
           Create a new account
         </div>
         <span className='justify-center text-sm text-center text-gray-500 flex-items-center dark:text-gray-400'>
