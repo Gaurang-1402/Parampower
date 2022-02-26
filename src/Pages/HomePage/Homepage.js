@@ -9,18 +9,24 @@ import nurse from "../../assets/icons/Nurse.png"
 import shower from "../../assets/icons/SafetyShower.png"
 import returnIcon from "../../assets/icons/return.png"
 import MLWrapper from "../MLWrapper"
+import model from "../../ML-model/model.js"
 
-const Homepage = ({ cursor }) => {
+const Homepage = () => {
   const { user, setUser } = useState({
     email: "someone@example.com",
     phoneNumber: "5547769000",
   })
 
+  const cursor = useRef(null)
   const button1 = useRef(null)
 
   useEffect(() => {
     const divElement = button1.current
     console.log(divElement) // logs <div>I'm an element</div>
+    console.log(cursor.current)
+    if (elementsIntersect(cursor.current, button1.current)) {
+      console.log("click")
+    }
   }, [])
 
   const elementsIntersect = (elA, elB) => {
@@ -37,8 +43,24 @@ const Homepage = ({ cursor }) => {
 
   return (
     <>
-      {" "}
-      <MLWrapper />
+      <div>
+        <div id='faceFrame'>
+          <div ref={cursor} className='sharktank' id='enterYourOwnCustomID' />
+          <video
+            id='camera-video'
+            width={64}
+            height={48}
+            autoPlay
+            muted
+          ></video>
+          <canvas
+            id='camera-canvas'
+            width={64}
+            height={48}
+            className='hidden'
+          ></canvas>
+        </div>
+      </div>
       <div style={{ zIndex: 100 }} className='w-full bg-primary h-screen'>
         <div className='px-12 m-auto w-5/6'>
           <div className='flex flex-row items-center py-12 justify-between h-19'>

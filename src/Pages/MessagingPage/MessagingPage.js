@@ -5,6 +5,7 @@ import KeyboardComponent from "../../Components/KeyboardComponent/KeyboardCompon
 import React, { useRef, useState } from "react"
 import Keyboard from "react-simple-keyboard"
 import "react-simple-keyboard/build/css/index.css"
+import SpeechComponent from "../../Components/SpeechComponent/SpeechComponent"
 
 const MessagingPage = () => {
   const [myID, setMyID] = useState(1)
@@ -239,12 +240,7 @@ const MessagingPage = () => {
         </div>
         <div className='flex flex-col w-full md:w-1/2'>
           <div className='m-auto w-full px-10'>
-            <Keyboard
-              keyboardRef={(r) => (keyboard.current = r)}
-              layoutName={layout}
-              onChange={onChange}
-              onKeyPress={onKeyPress}
-            />
+            <SpeechComponent> </SpeechComponent>
           </div>
         </div>
       </div>
