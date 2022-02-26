@@ -1,8 +1,15 @@
 import React from "react"
 
-const ParaButton = ({ content, icon }) => {
+const ParaButton = ({ content, icon, childRef }) => {
   return (
-    <div className='w-128 rounded-xl h-56 bg-tertiary'>
+    <button
+      ref={childRef}
+      onClick={() => {
+        console.log("clicked")
+      }}
+      type='button'
+      className='cursor-pointer w-128 rounded-xl h-56 bg-tertiary'
+    >
       <div className='flex flex-col justify-center items-center h-full'>
         <div>
           <img src={icon}></img>
@@ -11,7 +18,7 @@ const ParaButton = ({ content, icon }) => {
           {content}
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 
