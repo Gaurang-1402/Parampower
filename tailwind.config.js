@@ -38,30 +38,6 @@ module.exports = {
           128: "32rem",
           144: "36rem",
         },
-
-        dropShadow: {
-          "3xl": "0px 35px 35px rgba(0, 0, 0, 0.45)",
-        },
-
-        screens: {
-          sm: "500px",
-        },
-        colors: {
-          correct: "#20AA57",
-          exist: "#E5B22D",
-          wrong: "#989898",
-        },
-
-        transitionDelay: {
-          0: "0ms",
-          100: "100ms",
-          200: "200ms",
-          300: "300ms",
-          400: "400ms",
-        },
-        borderRadius: {
-          "4xl": "2rem",
-        },
       },
     },
   },

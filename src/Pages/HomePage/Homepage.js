@@ -10,20 +10,22 @@ import shower from "../../assets/icons/SafetyShower.png"
 import returnIcon from "../../assets/icons/return.png"
 import MLWrapper from "../MLWrapper"
 import model from "../../ML-model/model.js"
-import { Navigate } from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 const Homepage = () => {
   const { user, setUser } = useState({
     email: "someone@example.com",
     phoneNumber: "5547769000",
   })
+  let navigate = useNavigate();
 
   const [hover, setHover] = useState('');
   var prev = "default"
   var curr = "somevalue"
 
 const _navigateTo = (nav) =>{
-    return(<Navigate to={`/${nav}`} />);
+  console.log("Here");
+  navigate(nav);
 }
   
 
