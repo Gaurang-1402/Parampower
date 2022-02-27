@@ -10,6 +10,7 @@ import shower from "../../assets/icons/SafetyShower.png"
 import returnIcon from "../../assets/icons/return.png"
 import MLWrapper from "../MLWrapper"
 import model from "../../ML-model/model.js"
+import { Navigate } from "react-router-dom"
 
 const Homepage = () => {
   const { user, setUser } = useState({
@@ -17,16 +18,83 @@ const Homepage = () => {
     phoneNumber: "5547769000",
   })
 
+  const [hover, setHover] = useState('');
+  var prev = "default"
+  var curr = "somevalue"
+
+const _navigateTo = (nav) =>{
+    return(<Navigate to={`/${nav}`} />);
+}
+  
+
   const cursor = useRef(null)
-  const button1 = useRef(null)
+  const callnurse = useRef(null)
+  const restroom = useRef(null)
+  const meals = useRef(null)
+  const messaging = useRef(null)
+  const gaming = useRef(null)
+  const room = useRef(null)
+
+  const _selectOption = () => {
+    setInterval(() => {
+      var c = cursor.current.getBoundingClientRect();
+    console.log("Cursor",c.top, c.right, c.bottom, c.left);
+    console.log(elementsIntersect(cursor.current, callnurse.current))
+    if (elementsIntersect(cursor.current, callnurse.current)) {
+      console.log("Nurse");
+      console.log(prev, curr);
+      prev=curr
+      curr="Nurse"
+      console.log(prev, curr)
+      setHover('Nurse');
+    }
+    else if(elementsIntersect(cursor.current, restroom.current)) {
+      console.log("Restroom")
+      prev=curr
+      curr="Restroom"
+      setHover('Restroom');
+    }
+    else if (elementsIntersect(cursor.current, meals.current)) {
+      console.log("Meal");
+      prev=curr
+      curr="Meal"
+      setHover('Meal');
+    }
+    else if (elementsIntersect(cursor.current, messaging.current)) {
+      console.log("Messaging")
+      prev=curr
+      curr="Messaging"
+      setHover('Messaging');
+
+    }
+    else if (elementsIntersect(cursor.current, gaming.current)) {
+      console.log("Gaming")
+      prev=curr
+      curr="Gaming"
+      setHover('Gaming');
+
+
+    }
+    else if (elementsIntersect(cursor.current, room.current)) {
+      console.log("Room")
+      prev=curr
+      curr="Room"
+
+      setHover('Room');
+
+    }
+    if(curr==prev){
+      console.log("NAVIGATE TO",curr);
+      _navigateTo(curr)
+    }
+      
+    }, 3000);
+  }
 
   useEffect(() => {
-    const divElement = button1.current
-    console.log(divElement) // logs <div>I'm an element</div>
-    console.log(cursor.current)
-    if (elementsIntersect(cursor.current, button1.current)) {
-      console.log("click")
-    }
+    console.log("Hello");
+    _selectOption();
+    
   }, [])
 
   const elementsIntersect = (elA, elB) => {
@@ -34,10 +102,10 @@ const Homepage = () => {
     const a = elA.getBoundingClientRect()
     const b = elB.getBoundingClientRect()
     return (
-      ((b.top >= a.top && b.top <= a.bottom) ||
-        (b.bottom >= a.top && b.bottom <= a.bottom)) &&
-      ((b.left >= a.left && b.left <= a.right) ||
-        (b.right >= a.left && b.right <= a.right))
+      ((a.top <= b.bottom && a.top >= b.top) &&
+        (a.bottom <= b.bottom && a.bottom >= b.top)) &&
+      ((a.left >= b.left && a.left <= b.right) &&
+        (a.right <= b.right && a.right >= b.left))
     )
   }
 
@@ -73,7 +141,7 @@ const Homepage = () => {
           </div>
           <div className='flex justify-center'>
             <div className='grid py-12 grid-cols-3 gap-12'>
-              <button
+              {/* <button
                 ref={button1}
                 onClick={() => {
                   console.log("clicked")
@@ -89,12 +157,31 @@ const Homepage = () => {
                     Help
                   </div>
                 </div>
-              </button>
-              <ParaButton content={"Restroom"} icon={shower}></ParaButton>
-              <ParaButton content={"Meal"} icon={meal}></ParaButton>
-              <ParaButton content={"Messaging"} icon={message}></ParaButton>
-              <ParaButton content={"Room Controls"} icon={cloud}></ParaButton>
-              <ParaButton content={"Gaming"} icon={games}></ParaButton>
+              </button> */}
+              <div ref={callnurse}><ParaButton
+                onClick={() => {
+                  console.log("clicked")
+                }} content={"Nurse"} icon={nurse} bgColor={hover==="Nurse"?"secondary":"tertiary"}></ParaButton></div>
+              <div ref={restroom}><ParaButton
+                onClick={() => {
+                  console.log("clicked")
+                }} content={"Restroom"} icon={shower} bgColor={hover==="Restroom"?"secondary":"tertiary"}></ParaButton></div>
+              <div ref={meals}><ParaButton
+                onClick={() => {
+                  console.log("clicked")
+                }} content={"Meal"} icon={meal} bgColor={hover==="Meal"?"secondary":"tertiary"}></ParaButton></div>
+                <div ref={messaging}><ParaButton
+                onClick={() => {
+                  console.log("clicked")
+                }} content={"Messaging"} icon={message} bgColor={hover==="Messaging"?"secondary":"tertiary"}></ParaButton></div>
+                <div ref={room}><ParaButton
+                onClick={() => {
+                  console.log("clicked")
+                }} content={"Room Controls"} icon={cloud} bgColor={hover==="Room"?"secondary":"tertiary"}></ParaButton></div>
+                <div ref={gaming}><ParaButton
+                onClick={() => {
+                  console.log("clicked")
+                }} content={"Gaming"} icon={games} bgColor={hover==="Gaming"?"secondary":"tertiary"}></ParaButton></div>
             </div>
           </div>
         </div>
