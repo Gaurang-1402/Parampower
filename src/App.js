@@ -5,18 +5,23 @@ import Homepage from "./Pages/HomePage/Homepage"
 import SignUpPage from "./Pages/SignUpPage/SignUpPage"
 import MessagingPage from "./Pages/MessagingPage/MessagingPage"
 import GamingPage from "./Pages/GamingPage/GamingPage"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path='/' element={<Homepage />} />
-        <Route exact path='/login' element={<LoginPage />} />
-        <Route exact path='/signup' element={<SignUpPage />} />
-        <Route exact path='/Messaging' element={<MessagingPage />} />
-        <Route exact path='/Gaming' element={<GamingPage />} />
-      </Routes>
-    </Router>
+    <>
+      <ToastContainer />
+      <Router>
+        <Routes>
+          <Route exact path='/' element={<Homepage />} />
+          <Route exact path='/login' element={<LoginPage />} />
+          <Route exact path='/signup' element={<SignUpPage />} />
+          <Route exact path='/message' element={<MessagingPage />} />
+          <Route exact path='/game' element={<GamingPage />} />
+        </Routes>
+      </Router>
+    </>
   )
 }
 
