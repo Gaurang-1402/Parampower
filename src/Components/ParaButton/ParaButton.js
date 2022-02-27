@@ -1,11 +1,11 @@
 import React from "react"
 
-const ParaButton = ({ handleClicker, content, icon, childRef }) => {
+const ParaButton = ({ content, icon, childRef, bgColor }) => {
   return (
     <button
       ref={childRef}
       type='button'
-      className='cursor-pointer w-128 rounded-xl h-56 bg-tertiary'
+      className={`cursor-pointer w-128 rounded-xl h-56 bg-${bgColor}`}
     >
       <div className='flex flex-col justify-center items-center h-full'>
         <div>
