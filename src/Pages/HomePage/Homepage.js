@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
-import Logo from "../../assets/images/logo.png"
+import regularlogo from "../../assets/images/regularlogo.png"
 import ParaButton from "../../Components/ParaButton/ParaButton"
 import cloud from "../../assets/icons/cloud.png"
 import games from "../../assets/icons/Games.png"
@@ -8,6 +8,8 @@ import meal from "../../assets/icons/meal.png"
 import nurse from "../../assets/icons/Nurse.png"
 import shower from "../../assets/icons/SafetyShower.png"
 import light from "../../assets/icons/Lights.png"
+import homescreenbackground from "../../assets/newImages/homescreenbackground.png"
+import mainLogo from "../../assets/newImages/mainLogo.png"
 
 import returnIcon from "../../assets/icons/return.png"
 import MLWrapper from "../MLWrapper"
@@ -178,6 +180,32 @@ const Homepage = () => {
     toast.success("Restroom request sent to your nurse")
   }
 
+  const toggleLights = () => {
+    var data = JSON.stringify({
+      action: "addnotification",
+      userid: "2",
+      type: "restroom",
+    })
+
+    var config = {
+      method: "post",
+      url: "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    }
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+
+    toast.success("Lights have been toggled off")
+  }
   const getMeal = () => {
     var data = JSON.stringify({
       action: "addnotification",
@@ -225,35 +253,18 @@ const Homepage = () => {
           ></canvas>
         </div>
       </div>
-      <div style={{ zIndex: 100 }} className='w-full bg-primary h-screen'>
+      <div
+        style={{ backgroundImage: `url(${homescreenbackground})` }}
+        className='w-full h-screen'
+      >
         <div className='px-12 m-auto w-5/6'>
           <div className='flex flex-row items-center py-12 justify-between h-19'>
-            <div>
-              <img src={returnIcon} />
-            </div>
-            <div>
-              <img className='pb-8' src={Logo} alt='logo' />
+            <div styles={{ width: "352px", height: "98px" }}>
+              <img src={mainLogo} />
             </div>
           </div>
           <div className='flex justify-center'>
             <div className='grid py-12 grid-cols-3 gap-12'>
-              {/* <button
-                ref={button1}
-                onClick={() => {
-                  console.log("clicked")
-                }}
-                type='button'
-                className='cursor-pointer w-128 rounded-xl h-56 bg-tertiary'
-              >
-                <div className='flex flex-col justify-center items-center h-full'>
-                  <div>
-                    <img src={nurse} alt='nurse'></img>
-                  </div>
-                  <div className='font-medium pt-4 leading-tight text-4xl mt-0 mb-2 text-white'>
-                    Help
-                  </div>
-                </div>
-              </button> */}
               <div ref={callnurse}>
                 <ParaButton
                   onClick={() => {
@@ -261,7 +272,11 @@ const Homepage = () => {
                   }}
                   content={"Nurse"}
                   icon={nurse}
-                  bgColor={hover === "Nurse" ? "secondary" : "tertiary"}
+                  bgColor={
+                    hover === "Nurse"
+                      ? "gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                      : "gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
+                  }
                 ></ParaButton>
               </div>
               <div ref={restroom}>
@@ -271,7 +286,11 @@ const Homepage = () => {
                   }}
                   content={"Restroom"}
                   icon={shower}
-                  bgColor={hover === "Restroom" ? "secondary" : "tertiary"}
+                  bgColor={
+                    hover === "Restroom"
+                      ? "gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                      : "gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
+                  }
                 ></ParaButton>
               </div>
               <div ref={meals}>
@@ -281,7 +300,11 @@ const Homepage = () => {
                   }}
                   content={"Meal"}
                   icon={meal}
-                  bgColor={hover === "Meal" ? "secondary" : "tertiary"}
+                  bgColor={
+                    hover === "Meal"
+                      ? "gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                      : "gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
+                  }
                 ></ParaButton>
               </div>
               <div ref={messaging}>
@@ -291,7 +314,11 @@ const Homepage = () => {
                   }}
                   content={"Messaging"}
                   icon={message}
-                  bgColor={hover === "Messaging" ? "secondary" : "tertiary"}
+                  bgColor={
+                    hover === "Messaging"
+                      ? "gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                      : "gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
+                  }
                 ></ParaButton>
               </div>
               <div ref={lights}>
@@ -301,7 +328,11 @@ const Homepage = () => {
                   }}
                   content={"Toggle Lights"}
                   icon={light}
-                  bgColor={hover === "Lights" ? "secondary" : "tertiary"}
+                  bgColor={
+                    hover === "Lights"
+                      ? "gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                      : "gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
+                  }
                 ></ParaButton>
               </div>
               <div ref={gaming}>
@@ -311,7 +342,11 @@ const Homepage = () => {
                   }}
                   content={"Gaming"}
                   icon={games}
-                  bgColor={hover === "Gaming" ? "secondary" : "tertiary"}
+                  bgColor={
+                    hover === "Gaming"
+                      ? "gradient-to-r from-green-300 via-blue-500 to-purple-600"
+                      : "gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
+                  }
                 ></ParaButton>
               </div>
             </div>

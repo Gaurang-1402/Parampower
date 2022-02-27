@@ -9,6 +9,7 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import MLWrapper from "../MLWrapper"
 import model from "../../ML-model/model.js"
+import homescreenbackground from "../../assets/newImages/homescreenbackground.png"
 
 const MessagingPage = () => {
   const [myID, setMyID] = useState(1)
@@ -118,7 +119,10 @@ const MessagingPage = () => {
           ></canvas>
         </div>
       </div>
-      <div className='w-full bg-primary h-screen'>
+      <div
+        style={{ backgroundImage: `url(${homescreenbackground})` }}
+        className='w-full h-screen'
+      >
         <div className='flex justify-center flex-wrap w-full'>
           <div className='flex-col w-full m-auto md:w-1/2'>
             <div className='flex justify-center m-auto align-center py-12'>
