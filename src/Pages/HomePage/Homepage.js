@@ -300,7 +300,7 @@ const Homepage = () => {
                     console.log("clicked")
                   }}
                   content={"Toggle Lights"}
-                  icon={cloud}
+                  icon={light}
                   bgColor={hover === "Lights" ? "secondary" : "tertiary"}
                 ></ParaButton>
               </div>

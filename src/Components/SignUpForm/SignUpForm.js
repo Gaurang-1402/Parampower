@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+
 const SignUpForm = () => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -8,30 +10,36 @@ const SignUpForm = () => {
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const navigate = useNavigate()
-  const handleSubmit = async (e) => {
-    e.preventdefault()
-    try {
-      const { data } = await axios.post(
-        "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
-        {
-          action: "registerpatient",
-          name: firstName + " " + lastName,
-          email: email,
-          password: password,
-          phone: phoneNumber,
-          age: "24",
-          gender: "m",
-          height: "168",
-          weight: "78.9",
-        }
-      )
+  let navigate = useNavigate()
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    var data = JSON.stringify({
+      action: "registercaregiver",
+      name: "carey mccaren",
+      email: "caregiver@email.com",
+      password: "unsafepassword",
+      phone: "12124544545",
+      gender: "f",
+    })
 
-      navigate.push("/")
-      console.log(data)
-    } catch (err) {
-      console.log(err)
+    var config = {
+      method: "post",
+      url: "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
     }
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data))
+        toast.success("Sign up successful")
+        navigate("/")
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   }
   return (
     <div>
