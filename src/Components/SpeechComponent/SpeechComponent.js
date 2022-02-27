@@ -1,11 +1,13 @@
 import React, { useState } from "react"
-
+import { Link } from "react-router-dom"
+import microphone from "../../assets/icons/Microphone.png"
+import goBack from "../../assets/icons/return.png"
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition
 const recognition = new SpeechRecognition()
 var current, transcript, upperCase
 
-export default function SpeechComponent({ setWriteMessage }) {
+export default function SpeechComponent({ setInput }) {
   const [text, setText] = useState()
   const startRecord = (e) => {
     recognition.start(e)
@@ -16,18 +18,38 @@ export default function SpeechComponent({ setWriteMessage }) {
       console.log("voice event", e)
       console.log("transcript", transcript)
       setText(transcript)
-      setWriteMessage(transcript)
+      setInput(transcript)
     }
   }
 
   return (
     <div>
-      <button onClick={(e) => startRecord(e)}>
-        <span role='img' aria-label='mic'>
-          :microphone2:
-        </span>
-      </button>
-      <div>Transcript: {text}</div>
+      <div
+        style={{ width: "35rem", height: "25rem" }}
+        className='flex justify-center rounded-lg bg-tertiary'
+      >
+        <div>
+          <button onClick={(e) => startRecord(e)}>
+            <img
+              src={microphone}
+              style={{
+                width: "10rem",
+                height: "10rem",
+                margin: "auto",
+                marginLeft: "12rem",
+              }}
+            />
+          </button>
+          <div className='text-white text-3xl pt-6 m-3'>
+            Click on the microphone to record the message and send!
+          </div>
+
+          <div className='text-white text-xl py-6'>Transcript: {text}</div>
+        </div>
+      </div>
+      <Link to='/'>
+        <img className='my-5 mx-3 cursor-pointer' src={goBack}></img>
+      </Link>
     </div>
   )
 }

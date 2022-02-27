@@ -2,105 +2,88 @@ import ChatMessage from "../../Components/ChatMessage/ChatMessage"
 import Logo from "../../assets/images/logo.png"
 import patientImg from "../../assets/images/bedpatient.png"
 import KeyboardComponent from "../../Components/KeyboardComponent/KeyboardComponent"
-import React, { useRef, useState } from "react"
+import SpeechComponent from "../../Components/SpeechComponent/SpeechComponent"
+import React, { useEffect, useRef, useState } from "react"
 import Keyboard from "react-simple-keyboard"
 import "react-simple-keyboard/build/css/index.css"
-import SpeechComponent from "../../Components/SpeechComponent/SpeechComponent"
-
+import axios from "axios"
 const MessagingPage = () => {
   const [myID, setMyID] = useState(1)
-  const [writeMessage, setWriteMessage] = useState
-  const [messages, setMessages] = useState([
-    { fromID: 1, toID: 2, content: "Hello" },
-    { fromID: 2, toID: 1, content: "Hello" },
-    {
-      fromID: 1,
-      toID: 2,
-      content: "Command was run with root privileges. I'm sure about that.",
-    },
-    {
-      fromID: 1,
-      toID: 2,
-      content: "I've update the description so it's more obviously now",
-    },
-    {
-      fromID: 2,
-      toID: 1,
-      content: `Check the line above (it ends with a # so, I'm running it
-    as root )<pre># npm install -g @vue/devtools</pre>
-`,
-    },
-    {
-      fromID: 2,
-      toID: 1,
-      content: `Thanks for your message David. I thought I'm alone with
-    this issue. Please, 👍 the issue to support it :)`,
-    },
-    {
-      fromID: 1,
-      toID: 2,
-      content: `Any updates on this issue? I'm getting the same error when
-    trying to install devtools. Thanks
-`,
-    },
-    {
-      fromID: 1,
-      toID: 2,
-      content: `Are you using sudo?
-    `,
-    },
-    {
-      fromID: 2,
-      toID: 1,
-      content: `Run this command sudo chown -R whoami /Users/{"{"}
-    {"{"}your_user_profile{"}"}
-    {"}"}/.npm-global/ then install the package globally
-    without using sudo`,
-    },
-    {
-      fromID: 1,
-      toID: 2,
-      content: `It seems like you are from Mac OS world. There is no
-    /Users/ folder on linux 😄
-`,
-    },
-    {
-      fromID: 2,
-      toID: 1,
-      content: `                      I have no issue with any other packages installed with
-    root permission globally.
-`,
-    },
-    {
-      fromID: 1,
-      toID: 2,
-      content: `yes, I have a mac. I never had issues with root permission
-      as well, but this helped me to solve the problem
+  const [messages, setMessages] = useState([])
 
-`,
-    },
-    {
-      fromID: 1,
-      toID: 2,
-      content: `I get the same error on Arch Linux (also with sudo)
-      `,
-    },
-  ])
+  useEffect(() => {
+    getMessages()
+  }, [])
 
+  const getMessages = () => {
+    var data = JSON.stringify({
+      action: "getmessages",
+      mynumber: "13218775974",
+    })
+
+    var config = {
+      method: "post",
+      url: "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    }
+
+    axios(config)
+      .then(function (response) {
+        setMessages(response.data.messages)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
   const [input, setInput] = useState("")
   const [layout, setLayout] = useState("default")
-  const keyboard = useRef()
-
-  const onChange = (input) => {
-    setInput(input)
-    console.log("Input changed", input)
-  }
 
   const handleShift = () => {
     const newLayoutName = layout === "default" ? "shift" : "default"
     setLayout(newLayoutName)
   }
+  const handleChatSend = (e) => {
+    e.preventDefault()
+    var data = JSON.stringify({
+      action: "sendmessage",
+      fromname: "mr tester",
+      fromphone: "13211234567",
+      toname: "test person 2",
+      tophone: "13218775974",
+      text: input,
+      sms: "y",
+    })
 
+    var config = {
+      method: "post",
+      url: "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    }
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    messages.push({
+      action: "sendmessage",
+      fromname: "mr tester",
+      fromId: 2,
+      fromphone: "13211234567",
+      toname: "test person 2",
+      tophone: "13218775974",
+      text: input,
+      sms: "n",
+    })
+  }
   const onKeyPress = (button) => {
     console.log("Button pressed", button)
 
@@ -108,12 +91,6 @@ const MessagingPage = () => {
      * If you want to handle the shift and caps lock buttons
      */
     if (button === "{shift}" || button === "{lock}") handleShift()
-  }
-
-  const onChangeInput = (event) => {
-    const input = event.target.value
-    setInput(input)
-    keyboard.current.setInput(input)
   }
 
   return (
@@ -125,39 +102,16 @@ const MessagingPage = () => {
               <div className='flex sm:items-center justify-between py-3 border-b-2 border-gray-200'>
                 <div className='relative flex items-center space-x-4'>
                   <div className='relative'>
-                    <span className='absolute text-green-500 right-0 bottom-0'>
-                      <svg width={20} height={20}>
-                        <circle cx={8} cy={8} r={8} fill='currentColor' />
-                      </svg>
-                    </span>
+                    <span className='absolute text-green-500 right-0 bottom-0'></span>
                   </div>
                   <div className='flex flex-col leading-tight'>
                     <div className='text-2xl mt-1 flex items-center'>
-                      <span className='text-white mr-3'>Ana Bobo</span>
+                      <span className='text-white ml-3'>Ana Bobo</span>
                     </div>
-                    <span className='text-lg text-white'>Nurse</span>
+                    <span className='ml-4 text-lg text-white'>Nurse</span>
                   </div>
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <button
-                    type='button'
-                    className='inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none'
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      stroke='currentColor'
-                      className='h-6 w-6'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth={2}
-                        d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                      />
-                    </svg>
-                  </button>
                   <button
                     type='button'
                     className='inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none'
@@ -204,46 +158,47 @@ const MessagingPage = () => {
               >
                 {messages.map(
                   (message) => (
-                    <ChatMessage myID={myID} message={message} />
+                    <ChatMessage id={myID} myID={myID} message={message} />
                   ),
                   []
                 )}
               </div>
               <div className='border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0'>
                 <div className='relative flex'>
-                  <span className='absolute inset-y-0 flex items-center'></span>
-                  <input
-                    value={input}
-                    placeholder={"Tap on the virtual keyboard to start"}
-                    onChange={onChangeInput}
-                    className='w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3'
-                  />
-                  <div className='absolute right-0 items-center inset-y-0 hidden sm:flex'>
-                    <button
-                      type='button'
-                      className='inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none'
-                    >
-                      <span className='font-bold'>Send</span>
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        viewBox='0 0 20 20'
-                        fill='currentColor'
-                        className='h-6 w-6 ml-2 transform rotate-90'
+                  <form onSubmit={(e) => handleChatSend(e)}>
+                    <input
+                      value={input}
+                      placeholder={
+                        "Press the microphone to record your message!"
+                      }
+                      style={{ width: "28rem" }}
+                      className='w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3'
+                    />
+                    <div className='absolute right-0 items-center inset-y-0 hidden sm:flex'>
+                      <button
+                        type='button'
+                        className='inline-flex items-center justify-center rounded-lg px-2 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none'
                       >
-                        <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z' />
-                      </svg>
-                    </button>
-                  </div>
+                        <span className='font-bold'>Send</span>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                          className='h-6 w-6 ml-2 transform rotate-90'
+                        >
+                          <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z' />
+                        </svg>
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className='flex flex-col w-full md:w-1/2'>
-          <div className='m-auto w-full px-10'>
-            <SpeechComponent setWriteMessage={setWriteMessage}>
-              {" "}
-            </SpeechComponent>
+        <div className='flex flex-col justify-center w-full md:w-1/2'>
+          <div className='m-auto px-10'>
+            <SpeechComponent setInput={setInput} />
           </div>
         </div>
       </div>
