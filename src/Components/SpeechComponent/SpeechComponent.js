@@ -31,6 +31,7 @@ export default function SpeechComponent({ setInput }) {
         <div>
           <button onClick={(e) => startRecord(e)}>
             <img
+              alt='mic'
               src={microphone}
               style={{
                 width: "10rem",
@@ -40,15 +41,19 @@ export default function SpeechComponent({ setInput }) {
               }}
             />
           </button>
-          <div className='text-white text-3xl pt-6 m-3'>
+          <div className='text-white text-3xl pt-6 mx-8'>
             Click on the microphone to record the message and send!
           </div>
 
-          <div className='text-white text-xl py-6'>Transcript: {text}</div>
+          <div className='text-white text-xl mx-8 py-6'>Transcript: {text}</div>
         </div>
       </div>
       <Link to='/'>
-        <img className='my-5 mx-3 cursor-pointer' src={goBack}></img>
+        <img
+          alt='return'
+          className='my-5 mx-3 cursor-pointer'
+          src={goBack}
+        ></img>
       </Link>
     </div>
   )

@@ -4,9 +4,10 @@ import patientImg from "../../assets/images/bedpatient.png"
 import KeyboardComponent from "../../Components/KeyboardComponent/KeyboardComponent"
 import SpeechComponent from "../../Components/SpeechComponent/SpeechComponent"
 import React, { useEffect, useRef, useState } from "react"
-import Keyboard from "react-simple-keyboard"
 import "react-simple-keyboard/build/css/index.css"
 import axios from "axios"
+import { toast } from "react-toastify"
+
 const MessagingPage = () => {
   const [myID, setMyID] = useState(1)
   const [messages, setMessages] = useState([])
@@ -73,6 +74,7 @@ const MessagingPage = () => {
       .catch(function (error) {
         console.log(error)
       })
+    toast.success("Message sent")
     messages.push({
       action: "sendmessage",
       fromname: "mr tester",

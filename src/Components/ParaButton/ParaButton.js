@@ -1,12 +1,9 @@
 import React from "react"
 
-const ParaButton = ({ content, icon, childRef }) => {
+const ParaButton = ({ handleClicker, content, icon, childRef }) => {
   return (
     <button
       ref={childRef}
-      onClick={() => {
-        console.log("clicked")
-      }}
       type='button'
       className='cursor-pointer w-128 rounded-xl h-56 bg-tertiary'
     >

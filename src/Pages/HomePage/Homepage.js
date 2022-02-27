@@ -7,10 +7,15 @@ import message from "../../assets/icons/GroupMessage.png"
 import meal from "../../assets/icons/meal.png"
 import nurse from "../../assets/icons/Nurse.png"
 import shower from "../../assets/icons/SafetyShower.png"
+import light from "../../assets/icons/Lights.png"
+
 import returnIcon from "../../assets/icons/return.png"
 import MLWrapper from "../MLWrapper"
 import model from "../../ML-model/model.js"
 import { Link } from "react-router-dom"
+import axios from "axios"
+
+import { toast } from "react-toastify"
 
 const Homepage = () => {
   const { user, setUser } = useState({
@@ -40,6 +45,87 @@ const Homepage = () => {
       ((b.left >= a.left && b.left <= a.right) ||
         (b.right >= a.left && b.right <= a.right))
     )
+  }
+
+  const getHelp = (e) => {
+    var data = JSON.stringify({
+      action: "addnotification",
+      userid: "2",
+      type: "help",
+    })
+
+    var config = {
+      method: "post",
+      url: "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    }
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+
+    toast.success("Help request sent to your nurse")
+  }
+
+  const getRestRoom = () => {
+    var data = JSON.stringify({
+      action: "addnotification",
+      userid: "2",
+      type: "restroom",
+    })
+
+    var config = {
+      method: "post",
+      url: "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    }
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+
+    toast.success("Restroom request sent to your nurse")
+  }
+
+  const getMeal = () => {
+    var data = JSON.stringify({
+      action: "addnotification",
+      userid: "2",
+      type: "meal",
+    })
+
+    var config = {
+      method: "post",
+      url: "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    }
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+
+    toast.success("Meal request sent to your nurse")
   }
 
   return (
@@ -75,34 +161,55 @@ const Homepage = () => {
           <div className='flex justify-center'>
             <div className='grid py-12 grid-cols-3 gap-12'>
               <button
-                ref={button1}
-                onClick={() => {
-                  console.log("clicked")
-                }}
+                onClick={() => getHelp()}
                 type='button'
                 className='cursor-pointer w-128 rounded-xl h-56 bg-tertiary'
               >
                 <div className='flex flex-col justify-center items-center h-full'>
                   <div>
-                    <img src={nurse}></img>
+                    <img src={nurse} alt='nurse'></img>
                   </div>
                   <div className='font-medium pt-4 leading-tight text-4xl mt-0 mb-2 text-white'>
                     Help
                   </div>
                 </div>
               </button>
-              <Link to='/restroom'>
-                <ParaButton content={"Restroom"} icon={shower}></ParaButton>
-              </Link>
-              <Link to='/food'>
-                <ParaButton content={"Meal"} icon={meal}></ParaButton>
-              </Link>
+
+              <button
+                onClick={() => getRestRoom()}
+                type='button'
+                className='cursor-pointer w-128 rounded-xl h-56 bg-tertiary'
+              >
+                <div className='flex flex-col justify-center items-center h-full'>
+                  <div>
+                    <img src={shower} alt='restroom'></img>
+                  </div>
+                  <div className='font-medium pt-4 leading-tight text-4xl mt-0 mb-2 text-white'>
+                    Restroom
+                  </div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => getMeal()}
+                type='button'
+                className='cursor-pointer w-128 rounded-xl h-56 bg-tertiary'
+              >
+                <div className='flex flex-col justify-center items-center h-full'>
+                  <div>
+                    <img src={meal} alt='restroom'></img>
+                  </div>
+                  <div className='font-medium pt-4 leading-tight text-4xl mt-0 mb-2 text-white'>
+                    Meal
+                  </div>
+                </div>
+              </button>
+              <ParaButton content={"Toggle Lights"} icon={light}></ParaButton>
+
               <Link to='/message'>
                 <ParaButton content={"Messaging"} icon={message}></ParaButton>
               </Link>
-              <Link to='/room-controls'>
-                <ParaButton content={"Room Controls"} icon={cloud}></ParaButton>
-              </Link>
+
               <Link to='/game'>
                 <ParaButton content={"Gaming"} icon={games}></ParaButton>
               </Link>
