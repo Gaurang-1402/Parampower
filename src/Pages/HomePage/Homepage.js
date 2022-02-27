@@ -10,6 +10,7 @@ import shower from "../../assets/icons/SafetyShower.png"
 import returnIcon from "../../assets/icons/return.png"
 import MLWrapper from "../MLWrapper"
 import model from "../../ML-model/model.js"
+import { Link } from "react-router-dom"
 
 const Homepage = () => {
   const { user, setUser } = useState({
@@ -90,11 +91,21 @@ const Homepage = () => {
                   </div>
                 </div>
               </button>
-              <ParaButton content={"Restroom"} icon={shower}></ParaButton>
-              <ParaButton content={"Meal"} icon={meal}></ParaButton>
-              <ParaButton content={"Messaging"} icon={message}></ParaButton>
-              <ParaButton content={"Room Controls"} icon={cloud}></ParaButton>
-              <ParaButton content={"Gaming"} icon={games}></ParaButton>
+              <Link to='/restroom'>
+                <ParaButton content={"Restroom"} icon={shower}></ParaButton>
+              </Link>
+              <Link to='/food'>
+                <ParaButton content={"Meal"} icon={meal}></ParaButton>
+              </Link>
+              <Link to='/message'>
+                <ParaButton content={"Messaging"} icon={message}></ParaButton>
+              </Link>
+              <Link to='/room-controls'>
+                <ParaButton content={"Room Controls"} icon={cloud}></ParaButton>
+              </Link>
+              <Link to='/game'>
+                <ParaButton content={"Gaming"} icon={games}></ParaButton>
+              </Link>
             </div>
           </div>
         </div>
