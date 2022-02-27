@@ -9,6 +9,7 @@ import SpeechComponent from "../../Components/SpeechComponent/SpeechComponent"
 
 const MessagingPage = () => {
   const [myID, setMyID] = useState(1)
+  const [writeMessage, setWriteMessage] = useState
   const [messages, setMessages] = useState([
     { fromID: 1, toID: 2, content: "Hello" },
     { fromID: 2, toID: 1, content: "Hello" },
@@ -240,7 +241,9 @@ const MessagingPage = () => {
         </div>
         <div className='flex flex-col w-full md:w-1/2'>
           <div className='m-auto w-full px-10'>
-            <SpeechComponent> </SpeechComponent>
+            <SpeechComponent setWriteMessage={setWriteMessage}>
+              {" "}
+            </SpeechComponent>
           </div>
         </div>
       </div>

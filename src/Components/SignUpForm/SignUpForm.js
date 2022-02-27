@@ -1,6 +1,38 @@
-import React from "react"
-
+import React, { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 const SignUpForm = () => {
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const navigate = useNavigate()
+  const handleSubmit = async (e) => {
+    e.preventdefault()
+    try {
+      const { data } = await axios.post(
+        "https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower",
+        {
+          action: "registerpatient",
+          name: firstName + " " + lastName,
+          email: email,
+          password: password,
+          phone: phoneNumber,
+          age: "24",
+          gender: "m",
+          height: "168",
+          weight: "78.9",
+        }
+      )
+
+      navigate.push("/")
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <div>
       <div className='flex bg-gray-800 m-auto flex-col max-w-md px-4 py-8 rounded-lg shadow sm:px-6 md:px-8 lg:px-10'>
@@ -9,24 +41,22 @@ const SignUpForm = () => {
         </div>
         <span className='justify-center text-sm text-center text-gray-500 flex-items-center dark:text-gray-400'>
           Already have an account?{" "}
-          <a
-            href='#'
-            target='_blank'
-            className='text-sm text-blue-500 underline hover:text-blue-700'
-          >
+          <a className='text-sm text-blue-500 underline hover:text-blue-700'>
             Sign In
           </a>
         </span>
         <div className='p-6 mt-8'>
-          <form action='#'>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <div className='flex flex-col mb-2'>
               <div className=' relative '>
                 <input
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={phoneNumber}
                   type='text'
                   id='create-account-pseudo'
                   className=' rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
-                  name='pseudo'
-                  placeholder='Pseudo'
+                  name='phone number'
+                  placeholder='Phone Number'
                 />
               </div>
             </div>
@@ -34,14 +64,18 @@ const SignUpForm = () => {
               <div className=' relative '>
                 <input
                   type='text'
+                  onChange={(e) => setFirstName(e.target.value)}
                   id='create-account-first-name'
                   className=' rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
                   name='First name'
                   placeholder='First name'
+                  value={firstName}
                 />
               </div>
               <div className=' relative '>
                 <input
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   type='text'
                   id='create-account-last-name'
                   className=' rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
@@ -53,6 +87,8 @@ const SignUpForm = () => {
             <div className='flex flex-col mb-2'>
               <div className=' relative '>
                 <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   type='text'
                   id='create-account-email'
                   className=' rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
@@ -63,6 +99,8 @@ const SignUpForm = () => {
             <div className='flex flex-col mb-2'>
               <div className=' relative '>
                 <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                   type='password'
                   className=' rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
                   placeholder='Password'
@@ -72,6 +110,8 @@ const SignUpForm = () => {
             <div className='flex flex-col mb-2'>
               <div className=' relative '>
                 <input
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={confirmPassword}
                   type='password'
                   className=' rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
                   placeholder='Confirm Password'

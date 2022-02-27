@@ -1,3 +1,66 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modal::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: rgba(165, 165, 165, 0.5);
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+  width: 15px;
+  background: rgba(165, 165, 165, 0.75);
+}
+
+.app {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  background-color: #e5e5e5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
