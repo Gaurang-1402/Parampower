@@ -19,7 +19,7 @@ def sendsms(tonum, message):
     payload = json.dumps({
     "receiver": tonum,
     "message": message,
-    "token": "wonttellu"
+    "token": "hackeroo"
     })
     headers = {
     'Content-Type': 'application/json'
@@ -120,6 +120,10 @@ def dummy(request):
 
 
     receiver_public_key = os.environ.get('ownpublic')
+
+    # mongostr = os.environ.get('MONGOSTR')
+    # client = pymongo.MongoClient(mongostr)
+    # db = client["neurolyzer"]
 
     client, db = initdb()
 
@@ -934,7 +938,19 @@ def dummy(request):
 
         return json.dumps(retjson)
 
+    if action == "togglelight" :
 
+        col = db.system
+        col.update_one({"feature":"lights"}, {"$set": {"status":request_json['status']}})
+
+
+        retjson = {}
+
+        # retjson['dish'] = userid
+        retjson['status'] = "successfully toggled"
+        
+
+        return json.dumps(retjson)
 
 
 
