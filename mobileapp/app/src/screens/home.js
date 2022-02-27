@@ -18,13 +18,34 @@ export default function Home() {
   let navigation = useNavigation();
 
   const [visible, setVisible] = React.useState(false);
+  const [readings, setReadings] = useState({"hrs": [98, 97, 99, 103, 110, 99, 99, 98, 97, 95, 94], "spo2s": [99, 99, 100, 98, 98, 98, 99, 100, 100, 99, 98],
+  "temps": [97, 97, 97, 97, 97, 97, 96, 96, 96, 97, 97]})
 
-  const showModal = () => setVisible(true);
+  const showModal = () => {setVisible(true);}
+  var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+  "action": "getbasereadings",
+  "userid": "1"
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("https://us-central1-aiot-fit-xlab.cloudfunctions.net/parampower", requestOptions)
+  .then(response => response.text())
+  .then(result => {console.log(result); setReadings(JSON.parse(result))})
+  .catch(error => console.log('error', error));
   const hideModal = () => setVisible(false);
 
     const [patients, setPatients] = useState({"patients":[{"id":"0","img":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80","name":"John Doe","ward":"12J","Condition":"ALS"},
-    {"id":"1","img":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80","name":"Jane Doe","ward":"11J","Condition":"Cerebral Palsy"},
-    {"id":"1","img":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80","name":"Jane Doe","ward":"11J","Condition":"Cerebral Palsy"}]})
+    {"id":"1","img":"https://images.unsplash.com/photo-1498757581981-8ddb3c0b9b07?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8b2xkJTIwbGFkeXxlbnwwfHwwfHw%3D&w=1000&q=80","name":"Jane Doe","ward":"11J","Condition":"Cerebral Palsy"},
+    {"id":"1","img":"https://images.unsplash.com/photo-1525599428495-0441bd5c67de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8b2xkJTIwbGFkeXxlbnwwfHwwfHw%3D&w=1000&q=80","name":"Janet Doe","ward":"10A","Condition":"Cerebral Palsy"}]})
 
     const viewPatients = (patients.patients.map(item => {return(<LinearGradient
       colors={['rgb(165, 180, 252)', 'rgb(192, 132, 252)']}
@@ -56,14 +77,7 @@ export default function Home() {
     data={{
       datasets: [
         {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
-          ]
+          data: readings.hrs
         }
       ]
     }}
@@ -99,20 +113,14 @@ export default function Home() {
     data={{
       datasets: [
         {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
-          ]
+          data: readings.spo2s
         }
       ]
     }}
     width={Dimensions.get("window").width-30} // from react-native
     height={220}
     yAxisInterval={1} // optional, defaults to 1
+    fromZero
     chartConfig={{
       backgroundColor: "rgb(139, 92, 246)",
       backgroundGradientFrom: "rgb(139, 92, 246)",
@@ -142,20 +150,14 @@ export default function Home() {
     data={{
       datasets: [
         {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
-          ]
+          data: readings.temps
         }
       ]
     }}
     width={Dimensions.get("window").width-30} // from react-native
     height={220}
     yAxisInterval={1} // optional, defaults to 1
+    fromZero
     chartConfig={{
       backgroundColor: "rgb(139, 92, 246)",
       backgroundGradientFrom: "rgb(139, 92, 246)",
